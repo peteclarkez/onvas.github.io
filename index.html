@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onvas | Software Architecture & Engineering Consultancy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Brand Colors from Design System */
+            --brand-navy: #000080;
+            --brand-navy-light: #0000a3;
+            --brand-navy-dark: #000057;
+            --brand-red: #aa0000;
+            --brand-red-light: #cc0000;
+            
+            /* Neutrals */
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --white: #ffffff;
+
+            /* Typography */
+            --font-sans: 'IBM Plex Sans', sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+
+            /* Layout Tokens */
+            --radius-lg: 0.5rem;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
+        }
+
+        /* Top Navigation Header */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            padding: 0 32px; 
+            height: 64px;
+            background-color: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .logo {
+            display: flex; 
+            align-items: center; 
+            font-size: 22px; 
+            font-weight: 700;
+            color: var(--brand-navy); 
+            letter-spacing: 1px; 
+            text-decoration: none;
+        }
+
+        /* Pointed directly to your local graphic asset */
+        .logo img {
+            height: 36px;
+            width: auto;
+            margin-right: 10px;
+            display: block;
+        }
+
+        /* Layout Main Container */
+        main {
+            max-width: 1100px;
+            margin: 64px auto 0 auto;
+            padding: 0 24px 60px 24px;
+        }
+
+        /* Enhanced Hero Layout with Brand Navy Depth */
+        .hero-container {
+            margin-left: -24px;
+            margin-right: -24px;
+            background: linear-gradient(135deg, var(--brand-navy-dark) 0%, var(--brand-navy) 100%);
+            color: var(--white);
+            padding: 80px 48px;
+            margin-bottom: 60px;
+            box-shadow: var(--shadow-md);
+        }
+
+        @media (max-width: 768px) {
+            .hero-container {
+                padding: 60px 24px;
+            }
+        }
+
+        .hero-content {
+            max-width: 1052px;
+            margin: 0 auto;
+        }
+
+        .hero-content h1 {
+            font-size: 42px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            color: var(--gray-200);
+            max-width: 800px;
+            margin-bottom: 32px;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 28px;
+            font-size: 15px;
+            font-weight: 600;
+            background-color: var(--brand-red);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+        }
+
+        .cta-btn:hover {
+            background-color: var(--brand-red-light);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Section Layout Hierarchy */
+        section {
+            margin-bottom: 60px;
+        }
+
+        .section-intro-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .section-intro-block {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--brand-navy);
+            margin-bottom: 24px;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--brand-red);
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 12px;
+        }
+
+        p {
+            font-size: 15px;
+            color: var(--gray-600);
+            margin-bottom: 16px;
+        }
+
+        /* Editorial Content Images */
+        .content-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+            margin-bottom: 16px;
+        }
+
+        /* Core Values & Pillars Grid */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Structural Showcase Cards with Border Accents */
+        .card {
+            background: var(--white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            padding: 28px 24px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        /* Subtle indicator color tweaks to break monotony */
+        .card.navy-top { border-top: 4px solid var(--brand-navy); }
+        .card.red-top { border-top: 4px solid var(--brand-red); }
+        .card.navy-light-top { border-top: 4px solid var(--brand-navy-light); }
+
+        .card p {
+            font-size: 14px;
+            margin-bottom: 0;
+        }
+
+        /* Contact Details Segment */
+        .contact-list {
+            list-style: none;
+            margin-top: 16px;
+        }
+
+        .contact-list li {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            color: var(--gray-800);
+        }
+
+        .contact-list a {
+            color: var(--brand-navy);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-list a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 24px;
+            border-top: 1px solid var(--gray-200);
+            background-color: var(--white);
+            font-size: 13px;
+            color: var(--gray-400);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">
+            <!-- Linked perfectly to file named verbatim -->
+            <img src="OnvasIcon.png" alt="Onvas Logo Icon">
+        </a>
+    </header>
+
+    <!-- Deep Blue Dynamic Hero Area Section -->
+    <div class="hero-container">
+        <div class="hero-content">
+            <h1>Where are you going and how can we help you get there?</h1>
+            <p>Onvas provides the Software Architecture, High-Performance Engineering, and Strategic Advice to ensure you arrive safely.</p>
+            <a href="#contact" class="cta-btn">Discuss a Project</a>
+        </div>
+    </div>
+
+    <main>
+        <!-- The Narrative Context Section with Image Split -->
+        <section>
+            <h2>The Story Behind the Name</h2>
+            <div class="section-intro-block">
+                <div>
+                    <p><strong>"On vas?"</strong> is a phrase that translates simply to: <strong>"Where are you going?"</strong></p>
+                    <p>We chose this name because it defines our entire approach to technical consultancy. Before we write a line of code or recommend an architectural pattern, we ask our clients where they want their business to go. Our purpose is not just to patch up your current systems, but to build the institutional-grade foundations that accelerate your journey and support your evolution long into the future.</p>
+                </div>
+                <div>
+                    <!-- High quality dark corporate network / technical pathing placeholder image -->
+                    <img class="content-image" src="https://images.unsplash.com/photo-1510511459019-5dda7724fd87?auto=format&fit=crop&w=600&q=80" alt="Strategic Technology Infrastructure">
+                </div>
+            </div>
+        </section>
+
+        <!-- Focus / Offerings Section -->
+        <section>
+            <h2>Areas of Expertise</h2>
+            <div class="grid-3">
+                <div class="card navy-top">
+                    <h3>Software Architecture &amp; Database Strategy</h3>
+                    <p>Scalable, cloud-native and bare metal ecosystems and database strategies optimized for complex time-series data.</p>
+                </div>
+                <div class="card red-top">
+                    <h3>Core Software Engineering</h3>
+                    <p>Robust, low-latency backend systems and real-time optimization frameworks built for predictability and long-term stability.</p>
+                </div>
+                <div class="card navy-light-top">
+                    <h3>Technical Sales Enablement</h3>
+                    <p>Supporting businesses to ask questions of their clients, to help them describe and scope complex deliveries and run effective proof-of-concept workshops.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Mid-Page Image Callout -->
+        <section>
+            <img class="content-image" style="height: 240px;" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1100&q=80" alt="High Performance Systems Engineering Infrastructure">
+        </section>
+
+        <!-- Strategy Approach Section -->
+        <section>
+            <h2>The Onvas Approach</h2>
+            <div class="grid-3">
+                <div class="card navy-top">
+                    <h3>Mapping the Destination</h3>
+                    <p>We align with your long-term business goals right from the start. Every technical decision—from data structures to cloud scalability—is calibrated against where your company needs to be next year, not just next week. Our priorities are evaluated through a single lens: How does this decision improve the client’s operational metrics, risk profile, and bottom line?</p>
+                </div>
+                <div class="card red-top">
+                    <h3>Navigating the Immediate Delivery</h3>
+                    <p>We get you moving quickly by prioritizing the delivery of functional, valuable software into production. We establish a strong baseline and iterate, ensuring you see immediate progress on your roadmap.</p>
+                </div>
+                <div class="card navy-light-top">
+                    <h3>Sustaining the Journey</h3>
+                    <p>We don’t leave you stranded. By architecting systems that are clean, production-hardened, and easy to maintain, we ensure your internal teams have a clear, documentation-backed road ahead long after initial delivery. We engineer for the mechanic, making sure it's easy to service and maintain deliverables well into the future.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fixed Contact Section Anchor -->
+        <section id="contact">
+            <h2>Let's Connect</h2>
+            <p>If your organization is trying to solve a complex data or infrastructure challenge and needs an experienced hand to help figure out the path forward, get in touch.</p>
+            <ul class="contact-list">
+                <li>
+                    <span style="width: 80px; display: inline-block; color: var(--gray-400);">Email:</span> 
+                    <a href="mailto:peter@onvas.io">peter@onvas.io</a>
+                </li>
+                <li>
+                    <span style="width: 80px; display: inline-block; color: var(--gray-400);">LinkedIn:</span> 
+                    <a href="https://www.linkedin.com/peteclarkez" target="_blank">Connect via LinkedIn</a>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2026 Onvas Ltd. All rights reserved. | Registered in the UK
+    </footer>
+
+</body>
+</html>
